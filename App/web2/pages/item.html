@@ -9,36 +9,91 @@
 
 </head>
 <body>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Dashboard</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="customer.html">Customer</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="item.html">Items</a>
+                </li>
+
+                <li class="nav-item">
+                    <span id="order-nav" class="nav-link">Order</span>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="placeorder.html">Orders</a>
+                </li>
+
+
+            </ul>
+            <form class="d-flex" role="search">
+                <button class="btn btn-outline-success" type="submit" style="position: absolute; right: 100px">Log out</button>
+                <button class="btn btn-outline-success" type="submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
 <div class="container mt-5">
-    <h1 class="text-center">Item Management</h1>
+    <section>
+        <div class="form-floating mb-3" style="position: relative">
+            <div class="form-floating mb-3" style="width: 10%; font-size: 40px; font-weight: 600; margin-left: 10px">
+                <a class="navbar-brand" href="#">
+                    <img src="../web/assests/images/item.png" alt="customer" style="width: 60px; height: 60px;">
+                    Item Management
+                </a>
+            </div>
+        </div>
+    </section>
 
     <!-- Item Form -->
     <div class="card p-4 mb-4">
-        <h3 class="card-title">Item Form</h3>
+
         <div class="row">
-            <div class="col-md-4 mb-3">
+            <div class="col-md-5 mb-2">
                 <label for="itemCode" class="form-label">Item Code</label>
-                <input type="text" id="itemCode" class="form-control" placeholder="Enter Item Code">
+                <input type="text" id="itemCode" class="form-control" placeholder="Enter Item Code" style="margin-bottom: 20px">
             </div>
-            <div class="col-md-4 mb-3">
+
+            <div class="col-md-5 mb-2" style="margin-left: 50px;">
                 <label for="itemDescription" class="form-label">Description</label>
-                <input type="text" id="itemDescription" class="form-control" placeholder="Enter Description">
+                <input type="text" id="itemDescription" class="form-control" placeholder="Enter Description" style="margin-bottom: 20px">
             </div>
-            <div class="col-md-4 mb-3">
+
+            <div class="col-md-5 mb-2">
                 <label for="itemPrice" class="form-label">Unit Price</label>
-                <input type="number" id="itemPrice" class="form-control" placeholder="Enter Unit Price">
+                <input type="number" id="itemPrice" class="form-control" placeholder="Enter Unit Price" style="margin-bottom: 20px">
             </div>
-            <div class="col-md-4 mb-3">
+
+            <div class="col-md-5 mb-2" style="margin-left: 50px;">
                 <label for="itemQty" class="form-label">Quantity</label>
-                <input type="number" id="itemQty" class="form-control" placeholder="Enter Quantity">
+                <input type="number" id="itemQty" class="form-control" placeholder="Enter Quantity" style="margin-bottom: 20px">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <div class="col-12" style="display: flex; justify-content: center;">
+                    <button type="button" class="btn btn-success" id="save_item" style="margin-left: 10px; margin-right: 10px; width: 100px;">Save</button>
+                    <button type="button" class="btn btn-primary" id="update_item" style="margin-left: 10px; margin-right: 10px; width: 100px;">Update</button>
+                    <button type="button" class="btn btn-danger" id="delete_item" style="margin-left: 10px; margin-right: 10px; width: 100px;">Delete</button>
+                    <button type="button" class="btn btn-warning" id="clear_item" style="margin-left: 10px; margin-right: 10px; width: 100px;">Clear</button>
+                </div>
             </div>
         </div>
-        <div class="text-end">
-            <button class="btn btn-success" id="save-btn">Save</button>
-            <button class="btn btn-warning" id="update-btn">Update</button>
-            <button class="btn btn-danger" id="delete-btn">Delete</button>
-            <button class="btn btn-secondary" id="clear-btn">Clear</button>
-        </div>
+
     </div>
 
     <!-- Item Table -->
@@ -64,18 +119,19 @@
 <script>
     function loadItemsData() {
         $.ajax({
-            url: 'http://localhost:8080/Application_01_Web_exploded/item', // Servlet URL
+            url: 'http://localhost:8080/App_Web_exploded/item', // Servlet URL
             method: "GET",
             success: function (response) {
                 let data = response;
                 console.log(response)
+
                 $("#itemTableBody").empty();
                 for (let i = 0; i < data.length; i++) {
                     let row = `
                     <tr>
-                        <td>${data[i].item_code}</td>
+                        <td>${data[i].itemCode}</td>
                         <td>${data[i].description}</td>
-                        <td>${data[i].unit_price}</td>
+                        <td>${data[i].unitPrice}</td>
                         <td>${data[i].qty}</td>
                     </tr>`;
                     $("#itemTableBody").append(row);
@@ -88,10 +144,10 @@
     }
     // Create JSON object
     let itemData = {
-        item_code:itemCode,
-        description:itemDescription,
-        unit_price:itemPrice,
-        quantity:itemQty
+        item_code: itemCode,
+        description: itemDescription,
+        unit_price: itemPrice,
+        quantity: itemQty
     };
     console.log("itemData", itemData)
 
@@ -112,13 +168,14 @@
         let itemDescription = $(this).find('td:nth-child(2)').text();
         let itemPrice = $(this).find('td:nth-child(3)').text();
         let itemQty = $(this).find('td:nth-child(4)').text();
+
         $('#itemCode').val(itemCode);
         $('#itemDescription').val(itemDescription);
         $('#itemPrice').val(itemPrice);
         $('#itemQty').val(itemQty);
     })
 
-    $("#save-btn").click(function (e) {
+    $("#save_item").click(function (e) {
         e.preventDefault();
         console.log("save")
 
@@ -127,15 +184,10 @@
         let itemPrice = $("#itemPrice").val();
         let itemQty = $("#itemQty").val();
 
-       /* let item = {
-            itemCode: itemCode,
-            itemDescription: itemDescription,
-            itemPrice: itemPrice,
-            itemQty: itemQty
-        }*/
+
         console.log( "itemCode: "+itemCode + "itemDescription: "+itemDescription + "itemPrice: "+itemPrice + "itemQty: "+itemQty)
         $.ajax({
-            url: 'http://localhost:8080/Application_01_Web_exploded/item', // Servlet URL
+            url: 'http://localhost:8080/App_Web_exploded/item', // Servlet URL
             method: "POST",
             data: {
                 itemCode: itemCode,
@@ -154,7 +206,7 @@
         });
     });
 
-    $("#update-btn").click(function (e) {
+    $("#update_item").click(function (e) {
         console.log("Update button clicked");
         e.preventDefault();
 
@@ -166,7 +218,7 @@
         console.log(itemCode,itemDescription,itemPrice,itemQty,)
 
         $.ajax({
-            url: 'http://localhost:8080/Application_01_Web_exploded/item', // Servlet URL
+            url: 'http://localhost:8080/App_Web_exploded/item', // Servlet URL
             method: "PUT",
             contentType: "application/json",
             data: JSON.stringify({
@@ -187,12 +239,12 @@
         });
     });
 
-    $("#delete-btn").click(function () {
+    $("#delete_item").click(function () {
         let item_code = $("#itemCode").val();
         console.log("ertyguhj"+item_code)
 
         $.ajax({
-            url: `http://localhost:8080/Application_01_Web_exploded/item?item_code=${item_code}`, // Servlet URL
+            url: `http://localhost:8080/App_Web_exploded/item?item_code=${item_code}`, // Servlet URL
             method: "DELETE",
             success: function (response) {
                 console.log("Item deleted successfully:", response);
@@ -205,6 +257,10 @@
             }
         });
     });
+
+    $("#clear_item").click((e)=>{
+        clearForm();
+    })
 
 
 </script>

@@ -19,20 +19,20 @@ public class ItemServlet extends HttpServlet {
         resp.setContentType("application/json");
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/company2", "root", "Ijse@1234");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/aad_project", "root", "Ijse@123");
             ResultSet resultSet = connection.prepareStatement("select * from item").executeQuery();
             JsonArrayBuilder allitems = Json.createArrayBuilder();
             while (resultSet.next()) {
-                String item_code = resultSet.getString("item_code");
+                String itemCode = resultSet.getString("itemCode");
                 String description = resultSet.getString("description");
-                String unit_price = resultSet.getString("unit_price");
-                int qty = Integer.parseInt(resultSet.getString("quantity"));
+                String unitPrice = resultSet.getString("unitPrice");
+                int qty = Integer.parseInt(resultSet.getString("qty"));
 
                 JsonObjectBuilder item = Json.createObjectBuilder();
-                System.out.println("item_code : " + item_code + ", description : " + description + ", unit_price : " + unit_price + ", qty : " + qty);
-                item.add("item_code", item_code);
+                System.out.println("itemCode : " + itemCode + ", description : " + description + ", unitPrice : " + unitPrice + ", qty : " + qty);
+                item.add("itemCode", itemCode);
                 item.add("description", description);
-                item.add("unit_price", unit_price);
+                item.add("unitPrice", unitPrice);
                 item.add("qty", qty);
                 allitems.add(item);
             }
@@ -48,20 +48,15 @@ public class ItemServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("do post");
 
-        String item_code = req.getParameter("itemCode");
+       String item_code = req.getParameter("itemCode");
        String description = req.getParameter("itemDescription");
        String unit_price = req.getParameter("itemPrice");
        String qty = req.getParameter("itemQty");
-       System.out.println("item_code : " + item_code + ", description : " + description + ", unit_price : " + unit_price + ", qty : " + qty);
+       System.out.println("itemCode : " + item_code + ", description : " + description + ", unitPrice : " + unit_price + ", qty : " + qty);
 
-      /* if (item_code == null || item_code.isEmpty() || description == null || description.isEmpty() || unit_price == null || unit_price.isEmpty() || qty == null || qty.isEmpty()) {
-           resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-           resp.getWriter().write("{\"message\":\"Item code, description, unit price, and quantity are required\"}");
-           return;
-       }*/
        try {
-           Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/company2", "root", "Ijse@1234");
-           PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO item (item_code, description, unit_price, quantity) VALUES (?, ?, ?, ?)");
+           Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/aad_project", "root", "Ijse@123");
+           PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO item (itemCode, description, unitPrice, qty) VALUES (?, ?, ?, ?)");
 
            preparedStatement.setString(1, item_code);
            preparedStatement.setString(2, description);
@@ -97,9 +92,9 @@ public class ItemServlet extends HttpServlet {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/company2", "root", "Ijse@1234");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/aad_project", "root", "Ijse@123");
 
-            String query = "UPDATE item SET description = ?, unit_price = ?, quantity = ? WHERE item_code = ?";
+            String query = "UPDATE item SET description = ?, unitPrice = ?, qty = ? WHERE itemCode = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, description);
             preparedStatement.setString(2, unit_price);
@@ -131,9 +126,9 @@ public class ItemServlet extends HttpServlet {
         System.out.println("item_code : " + item_code);
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/company2", "root", "Ijse@1234");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/aad_project", "root", "Ijse@123");
 
-            String query = "DELETE FROM item WHERE item_code = ?";
+            String query = "DELETE FROM item WHERE itemCode = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, item_code);
 
